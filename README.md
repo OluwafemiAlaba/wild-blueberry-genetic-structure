@@ -1,5 +1,7 @@
 # SNP-based assessment of geographic and management-associated genetic structure in wild blueberries in Maine
 
+**Manuscript status:** This manuscript is currently under review.
+
 R and Python scripts for genotype filtering, population structure analyses, ordination, hierarchical clustering, AMOVA summaries, and manuscript figures.
 
 This repository contains **code and documentation only**. Genotype data, sample metadata, saved numerical results, manuscript text and photographs are not distributed here. A public data archive accession has not yet been assigned. Running the study analyses requires the source files described in [docs/INPUTS.md](docs/INPUTS.md).

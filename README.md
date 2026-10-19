@@ -43,12 +43,6 @@ sh run_figures.sh
 - `analysis_v2/diagnostics.py` and `extra_checks.py`: diagnostic and sensitivity analyses. These are not all main manuscript results.
 - `scripts/correct_management_hope34.py`: removal of the author-identified V. myrtilloides sample from the V. angustifolium management analysis; recalculation of PCoA and AMOVA.
 - `scripts/recalculate_pairwise.py`: pairwise PhiPT for the corrected management cohort.
-- `scripts/export_tables.py`: machine-readable main and supplementary table summaries.
-- `scripts/validate_package.py`: dataset dimensions, sample alignment and observed-call preservation checks.
-- `deliverables/Figure2_revision/relabel_original.py`: labels an existing SNP-density raster without changing the plotted data.
-- `deliverables/Figure3_revision/create_combined_pcoa.py`: two species-specific geographic PCoAs from saved GenAlEx coordinates.
-- `deliverables/Figure4_revision/create_figure4.py`: cross-entropy, clustering, ancestry proportions and PCA.
-- `deliverables/Figure5_revision/create_management_pcoa.py`: corrected management PCoA.
 
 ## Interpretation and reproducibility
 

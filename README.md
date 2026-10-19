@@ -56,8 +56,6 @@ The historical 6,491-marker analyses and the newer 129-sample, 4,640-marker anal
 
 The supplied 0/1/2 encoding is diploid-style coding and should not be interpreted as measured tetraploid allele dosage. Upstream recoding and missing-call handling for the historical matrices are not reconstructed by these scripts. The newer sNMF imputation is documented separately and preserves observed calls.
 
-Figure 2 is a relabeling of a supplied raster; its original bin-count calculation is not reproduced here. Figure 3 redraws saved coordinates. The six-group management AMOVA combines geographic and management differences and is not an isolated causal test of management. Clone and field dependence must be considered when interpreting sample-level permutation tests.
-
 ## Software attribution
 
 The scripts depend on LEA, R and the Python libraries listed in `requirements.txt`. The upstream sequencing/genotyping pipeline is described in [GBSapp](https://github.com/bodeolukolu/GBSapp); its software is not redistributed here. The exact upstream commands and reference assembly version must be obtained from the study's sequencing records.

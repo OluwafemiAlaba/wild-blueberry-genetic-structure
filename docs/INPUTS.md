@@ -13,6 +13,8 @@ Data are distributed separately from this code repository. No public data access
 
 Workbook `Sheet1` stores sample and group in the first two columns, marker headings on row 3 and genotype rows from row 4. Keep source row order and cached numeric values intact. The geographic figure script reads saved `PCoA` coordinates beginning on row 33 and axis percentages in B10/C10. Table export also requires `PhiPT` and `PhiPTP` result sheets.
 
+The supplied genotypes use diploid-style 0/1/2 coding. The scripts do not reconstruct upstream recoding or missing-call handling for the historical matrices.
+
 ## Outputs and data ordering
 
 `prepare.py` writes cohort/sample manifests, a variant manifest, `genotypes.npz` and LFMM inputs in `analysis_v2/data/`. LFMM rows follow the analysis sample manifest; columns follow LD-retained variants. LFMM missing calls are encoded as 9. The complete filtered matrix uses NaN for missing calls.
@@ -21,6 +23,6 @@ Workbook `Sheet1` stores sample and group in the first two columns, marker headi
 
 `analyze.py` and `clustering.R` write PCA scores, explained-variance values, clustering merges and sample order. Hierarchical-clustering indices follow R's one-based hclust convention. `diagnostics.py` also reads Q matrices saved for individual sNMF runs.
 
-The corrected management matrix, PCoA and AMOVA are written under `outputs/management_Hope34_excluded/`. The pairwise calculation writes `deliverables/Management_differentiation_preview/pairwise_PhiPT_corrected.csv`; that directory name is retained for script compatibility and does not add a separate figure to the manuscript. Table summaries are exported to `outputs/tables/`.
+The corrected management matrix, PCoA and AMOVA are written under `outputs/management_Hope34_excluded/`. The pairwise calculation writes `deliverables/Management_differentiation_preview/pairwise_PhiPT_corrected.csv`. Table summaries are exported to `outputs/tables/`.
 
 To redraw figures without fitting the analyses, provide the saved output files read by the corresponding figure scripts. The study data and derived output files are not included in this public code repository.

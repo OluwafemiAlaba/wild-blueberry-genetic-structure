@@ -16,21 +16,21 @@ assert len(m)==129 and q.shape==(129,4) and np.allclose(q.sum(1),1,atol=1e-5)
 fig=plt.figure(figsize=(13,11.5))
 def title(x,y,letter,text):
  fig.text(x,y,letter,fontsize=17,weight='bold',va='top')
-# A top left
+# A: cross-entropy
 ax=fig.add_axes([.075,.68,.285,.25]);d=pd.read_csv(O/'all_cross_entropy.csv');s=d.groupby('K').cross_entropy.agg(['mean','std'])
 for k,z in d.groupby('K'):
  ax.scatter(np.repeat(k,len(z))+np.linspace(-.07,.07,len(z)),z.cross_entropy,c='#B7BCC4',s=18,zorder=2)
 ax.errorbar(s.index,s['mean'],s['std'],fmt='o-',capsize=4,color='#333333',lw=1.2,zorder=3)
 ax.set_xticks(range(1,7));ax.set_xlabel('Number of ancestry components (K)');ax.set_ylabel('Cross-entropy');ax.set_ylim(.562,.587)
 title(.035,.978,'A','Ancestry model selection')
-# D lower left
+# D: PCA
 ax=fig.add_axes([.075,.345,.285,.24]);per=json.load(open(O/'analysis_results.json'))['all']['PC_percent']
 for sp,col in spc.items():
  z=m[m.species==sp];ax.scatter(z.PC1,z.PC2,c=col,s=35,edgecolor='white',linewidth=.45,label=spl[sp],alpha=.9)
 ax.axhline(0,color='#dddddd',lw=.7,zorder=0);ax.axvline(0,color='#dddddd',lw=.7,zorder=0)
 ax.set_xlabel(f'PC1 ({per[0]:.2f}%)');ax.set_ylabel(f'PC2 ({per[1]:.2f}%)');title(.035,.632,'D','Principal component analysis')
 ax.legend(frameon=False,prop={'size':7.5,'style':'italic'},loc='upper right',ncol=1)
-# B dominant right circular panel
+# B: hierarchical clustering
 ax=fig.add_axes([.365,.335,.63,.615],projection='polar');n=len(m);mx=h.height.max();ang=np.linspace(.058,2*np.pi-.058,n);ax.set_theta_offset(np.pi/2);ax.set_theta_direction(-1)
 coords={-int(ind+1):(ang[pos],1.) for pos,ind in enumerate(order)}
 for i,r in h.iterrows():
@@ -48,7 +48,7 @@ for pos,ind in enumerate(order):
 ax.set_ylim(0,1.34);ax.set_axis_off();title(.415,.978,'B','Hierarchical clustering · 129 samples')
 fig.legend(handles=[Patch(facecolor=c,label=(r'$\it{V.\ corymbosum}$' if k=='Reference' else k)) for k,c in sitec.items()],loc='upper left',bbox_to_anchor=(.435,.348),title='Inner ring: location',frameon=False,ncol=2,fontsize=8,title_fontsize=9)
 fig.legend(handles=[Patch(facecolor=c,label=(r'$\it{V.\ corymbosum}$' if k=='Reference' else k)) for k,c in mgc.items()],loc='upper left',bbox_to_anchor=(.745,.348),title='Outer ring: management',frameon=False,ncol=1,fontsize=8,title_fontsize=9)
-# C bottom full width, same leaf order as B
+# C: ancestry proportions in clustering order
 ax=fig.add_axes([.075,.080,.88,.135]);bottom=np.zeros(n)
 for j in range(4):
  v=q[order,j];ax.bar(np.arange(n),v,bottom=bottom,width=1,color=qc[j],linewidth=0);bottom+=v

@@ -1,4 +1,4 @@
-"""Validate data alignment and retained calls, not upstream sequencing provenance."""
+"""Check study dimensions, sample alignment and observed-call preservation."""
 from pathlib import Path
 import json,hashlib
 import numpy as np,pandas as pd,openpyxl

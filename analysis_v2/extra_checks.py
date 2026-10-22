@@ -11,7 +11,7 @@ for name,group in [('all','species'),('angust','site')]:
 a=json.loads((O/'analysis_results.json').read_text());t=[a['all']['species_test'],a['angust']['site_test'],a['myrt']['two_site_test'],a['angust']['management_adjusted_site']];order=sorted(range(4),key=lambda i:t[i]['P']);running=0
 for j,i in enumerate(order):running=max(running,min(1,(4-j)*t[i]['P']));t[i]['P_Holm_primary']=running
 (O/'analysis_results.json').write_text(json.dumps(a,indent=2));(O/'extra_checks.json').write_text(json.dumps(out,indent=2));print(out)
-# Export complete numeric matrices with identifiers for review and reuse.
+# Export imputed matrices with sample and marker identifiers.
 v=pd.read_csv(R/'data/variant_manifest.csv').query('LD_retained');col=v.CHROM.astype(str)+':'+v.POS.astype(str)+':'+v.REF+':'+v.ALT
 for name in ['all','angust']:
  m=pd.read_csv(O/f'{name}_PCA.csv');x=np.loadtxt(R/'data'/f'{name}_final.lfmm_imputed.lfmm',dtype=int);pd.DataFrame(x,index=m['sample'],columns=col).rename_axis('sample').to_csv(R/'data'/f'{name}_imputed_named.csv.gz',compression='gzip')

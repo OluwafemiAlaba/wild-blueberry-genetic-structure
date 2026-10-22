@@ -8,7 +8,7 @@ for (name in c('all','angust')) {
  write.csv(cv,file.path(root,'results',paste0(name,'_cross_entropy.csv')),row.names=FALSE)
  agg=aggregate(cross_entropy~K,cv,mean);bestK=agg$K[which.min(agg$cross_entropy)]
  for(k in 1:maxK){best=which.min(cross.entropy(p,K=k));write.csv(Q(p,K=k,run=best),file.path(root,'results',paste0(name,'_Q_K',k,'.csv')),row.names=FALSE)}
- # Independent external masking for accuracy validation, separate from entropy selection.
+ # Hold out 5% of observed calls to assess imputation accuracy.
  x=as.matrix(read.table(input));set.seed(41009);observed=which(x!=9);hide=sample(observed,round(.05*length(observed)));xval=x;xval[hide]=9
  valfile=paste0(name,'_validation.lfmm');write.lfmm(xval,valfile)
  pv=snmf(valfile,K=bestK,repetitions=1,entropy=FALSE,CPU=2,alpha=10,iterations=1000,tolerance=1e-5,seed=20261010,project='new')
@@ -19,7 +19,7 @@ for (name in c('all','angust')) {
  metrics=data.frame(K=bestK,hidden=length(hide),accuracy=mean(true==est),mode_accuracy=mean(true==baseline),MAE=mean(abs(true-est)),mode_MAE=mean(abs(true-baseline)))
  write.csv(metrics,file.path(root,'results',paste0(name,'_imputation_validation.csv')),row.names=FALSE)
  write.csv(table(truth=true,prediction=est),file.path(root,'results',paste0(name,'_imputation_confusion.csv')),row.names=FALSE)
- # Final complete-observation fit at chosen K. No artificial masking.
+ # Fit the selected K using all observed calls, then impute missing calls.
  finalfile=paste0(name,'_final.lfmm');write.lfmm(x,finalfile)
  pf=snmf(finalfile,K=bestK,repetitions=1,entropy=FALSE,CPU=2,alpha=10,iterations=1000,tolerance=1e-5,seed=20261011,project='new')
  impute(pf,finalfile,method='mode',K=bestK,run=1)

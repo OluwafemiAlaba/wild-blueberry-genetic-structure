@@ -19,7 +19,7 @@ for name,sel in [('all',np.ones(len(M),bool)),('angust',M.species.eq('angustifol
  missingcorr=[float(np.corrcoef(C[:,i],meta.original_missing)[0,1]) for i in range(2)]
  res[name]={'n':len(meta),'PC_percent':pct[:10].tolist(),'imputed_vs_mean_kernel_RV':rv,'PC_missingness_correlations':missingcorr}
  np.save(O/f'{name}_PC_percent.npy',pct)
-# Kernel-based multivariate tests; genotype standardization per species.
+# Standardize genotypes within species for multivariate tests.
 rng=np.random.default_rng(20261012)
 def modeltest(G,labels,strata=None,perms=9999):
  n=len(G);group=np.asarray(labels);cats=list(dict.fromkeys(group));Z=np.column_stack([np.ones(n)]+[(group==v).astype(float) for v in cats[1:]])
@@ -37,12 +37,12 @@ for name in ['all','angust','myrt']:
  if name=='all':res[name]['species_test']=modeltest(G,meta.species)
  elif name=='angust':
   res[name]['site_test']=modeltest(G,meta.site);res[name]['management_adjusted_site']=modeltest(G,meta.management,meta.site);res[name]['management_meanfill_sensitivity']=modeltest(D['Gmean'],meta.management,meta.site)
-  # Pairwise observed-call Euclidean distances, centered; sensitivity without imputed genotypes.
+  # Compare results using distances calculated from observed calls.
   raw=X[M.species.eq('angustifolium').values];dist=np.empty((len(raw),len(raw)))
   for i in range(len(raw)):
    diff=raw-raw[i];dist[i]=np.nanmean(diff*diff,axis=1)
   J=np.eye(len(raw))-1/len(raw);Gi=-.5*J@dist@J;res[name]['management_pairwise_observed_sensitivity']=modeltest(Gi,meta.management,meta.site)
-  # Dispersion diagnostic: distances to each site-by-management centroid, scalar site-adjusted test.
+  # Test site-adjusted dispersion using site-by-management centroids.
   C=D['C'];dists=np.empty(len(meta));labs=meta.site+'_'+meta.management
   for label in labs.unique():
    ix=np.where(labs==label)[0];dists[ix]=np.linalg.norm(C[ix]-C[ix].mean(axis=0),axis=1)
@@ -52,13 +52,13 @@ for name in ['all','angust','myrt']:
    ix=np.where(meta.site==site)[0];g=G[np.ix_(ix,ix)];j=np.eye(len(ix))-1/len(ix);res[name]['within_site'][site]=modeltest(j@g@j,meta.management.iloc[ix],perms=4999)
  elif name=='myrt':
   keep=meta.site.ne('Hope').values;g=G[np.ix_(keep,keep)];n=sum(keep);j=np.eye(n)-1/n;res[name]['two_site_test']=modeltest(j@g@j,meta.site[keep])
-# Within-species descriptive diversity from observed, not imputed, calls.
+# Calculate within-species diversity from observed calls.
 div=[]
 for (sp,site,mg),sub in M.groupby(['species','site','management']):
  ix=sub.index.to_numpy();a=X[ix];ho=np.sum(a==1,axis=1)/np.sum(np.isfinite(a),axis=1);p=np.nanmean(a,axis=0)/2;he=2*p*(1-p);boots=np.mean(rng.choice(ho,(2000,len(ho)),replace=True),axis=1)
  div.append({'species':sp,'site':site,'management':mg,'n':len(ix),'Ho':float(ho.mean()),'Ho_low':float(np.quantile(boots,.025)),'Ho_high':float(np.quantile(boots,.975)),'He_recoded':float(np.nanmean(he))})
 pd.DataFrame(div).to_csv(O/'diversity_observed_calls.csv',index=False)
-# Method QC: technical repeat concordance from original calls, not population cohort.
+# Assess technical-replicate concordance using the original calls.
 raw=pd.read_csv(R.parent/'inputs/dose.txt',sep='\t');rep=[]
 for a,b in [('S7','S7_Seq_Control_rep1'),('S7','S7_Seq_Control_rep3'),('S7_Seq_Control_rep1','S7_Seq_Control_rep3')]:
  ok=raw[a].notna()&raw[b].notna();rep.append({'a':a,'b':b,'n':int(ok.sum()),'concordance':float((raw.loc[ok,a]==raw.loc[ok,b]).mean())})

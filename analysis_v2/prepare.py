@@ -12,9 +12,9 @@ for f,species in [('angust_geographic','angustifolium'),('myrt_regions','myrtill
 for s in ['Bluejay','Nelson','MU6937','Bluegold','Patrioit','Bluecorp','Sunrise']:records.append([s,s,'highbush reference','Jonesboro','Reference'])
 M=pd.DataFrame(records,columns=['sample','parent','species','site','management']);assert M.parent.is_unique;assert len(M)==172
 miss=D[M['sample']].isna().mean();M['original_missing']=M['sample'].map(miss);M['retained']=M.original_missing<=.30;M.to_csv(R/'data/cohort_manifest.csv',index=False);M=M[M.retained].reset_index(drop=True)
-# Drop all duplicated positions and require single nucleotide, biallelic dosage annotation.
+# Exclude duplicated positions and retain biallelic SNPs.
 unique=~D.duplicated(['CHROM','POS'],keep=False);snv=D.REF.isin(list('ACGT'))&D.ALT.isin(list('ACGT'));base=D[unique&snv].copy();X=base[M['sample']].to_numpy(float).T;p=np.nanmean(X,axis=0)/2;missing=np.mean(np.isnan(X),axis=0);keep=(missing<=.20)&(np.minimum(p,1-p)>=.05)&(np.nanstd(X,axis=0)>0);V=base.loc[keep,['SNP','CHROM','POS','REF','ALT']].reset_index(drop=True);X=X[:,keep];V['missing']=missing[keep]
-# Greedy physical-window LD pruning with mean-filled screening calls only.
+# Prune LD within 500 kb; mean-fill missing calls only for LD screening.
 means=np.nanmean(X,axis=0);Z=np.where(np.isnan(X),means,X);Z-=Z.mean(axis=0);sd=np.sqrt((Z*Z).sum(axis=0));Z/=sd;ret=[]
 for j in range(X.shape[1]):
  prior=[i for i in ret if V.at[i,'CHROM']==V.at[j,'CHROM'] and abs(V.at[j,'POS']-V.at[i,'POS'])<=500000]

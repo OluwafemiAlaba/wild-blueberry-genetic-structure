@@ -7,7 +7,7 @@ for name,K in [('all',4),('angust',2)]:
  for run in range(1,6):
   z=np.loadtxt(R/'data'/f'{name}.snmf'/f'K{K}'/f'run{run}'/f'{name}_r{run}.{K}.Q');best=min(itertools.permutations(range(K)),key=lambda p:np.mean((q-z[:,p])**2));stab.append(float(np.sqrt(np.mean((q-z[:,best])**2))))
  out[name]={'Q_missingness_r':[float(np.corrcoef(q[:,k],m.original_missing)[0,1]) for k in range(K)],'Q_aligned_RMSE_vs_five_masked_runs':stab}
- # Missing-call fraction is an observed technical covariate; residual ordination is a sensitivity check.
+ # Assess sensitivity to sample missingness using residual ordination.
  S=np.column_stack([np.ones(len(m)),m.original_missing]);Q,_=np.linalg.qr(S);E=np.eye(len(m))-Q@Q.T;Gc=E@G@E;v,U=np.linalg.eigh(Gc);ix=np.argsort(v)[::-1];v=np.maximum(v[ix],0);C=U[:,ix]*np.sqrt(v);mm=m.copy();mm['PC1']=C[:,0];mm['PC2']=C[:,1];mm.to_csv(O/f'{name}_PCA_missing_adjusted.csv',index=False);out[name]['adjusted_PC_percent']=(v[:2]/v.sum()*100).tolist()
  # Freedman-Lane residual permutation; site blocks maintained for management.
  def covtest(labels,site=None):

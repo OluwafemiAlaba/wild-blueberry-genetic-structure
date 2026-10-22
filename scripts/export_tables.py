@@ -1,4 +1,4 @@
-"""Export saved geographic and recalculated management results, without new inference."""
+"""Export geographic and management results as CSV tables."""
 from pathlib import Path
 import json,csv
 import pandas as pd
@@ -18,7 +18,7 @@ for stem,taxon,panel in [('angust_geographic','V. angustifolium','A'),('myrt_wit
   if source!='Total':main.append({k:row[k] for k in ['panel','species','n','source','variance_component','variation_percent','PhiPT','P']})
  groups=pd.Series([row[1] for row in w['Sheet1'].iter_rows(min_row=4,max_col=2,values_only=True)]).value_counts(sort=False)
  for group,number in groups.items():counts.append(dict(analysis=stem,species=taxon,source_group=group,n=int(number)))
- # Keep cell layout: geographical pairwise output upper/lower triangles have distinct meanings.
+ # Preserve the separate statistics in the upper and lower triangles.
  with (O/f'Table_S{1 if panel=="A" else 2}_saved_pairwise_cells.csv').open('w') as f:csv.writer(f).writerows(w['PhiPTP'].values)
 a=pd.read_csv(R/'outputs/management_Hope34_excluded/corrected_amova.csv');s=json.loads((R/'outputs/management_Hope34_excluded/recalculation_summary.json').read_text())
 for t in a.itertuples():

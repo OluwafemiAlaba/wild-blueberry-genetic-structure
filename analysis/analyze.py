@@ -63,4 +63,9 @@ raw=pd.read_csv(R.parent/'inputs/dose.txt',sep='\t');rep=[]
 for a,b in [('S7','S7_Seq_Control_rep1'),('S7','S7_Seq_Control_rep3'),('S7_Seq_Control_rep1','S7_Seq_Control_rep3')]:
  ok=raw[a].notna()&raw[b].notna();rep.append({'a':a,'b':b,'n':int(ok.sum()),'concordance':float((raw.loc[ok,a]==raw.loc[ok,b]).mean())})
 res['technical_replicates']=rep
+# Holm correction within each family of tests.
+tests=res['angust']['within_site'];ordered=sorted(tests,key=lambda k:tests[k]['P']);running=0
+for i,k in enumerate(ordered):running=max(running,min(1,(3-i)*tests[k]['P']));tests[k]['P_Holm']=running
+t=[res['all']['species_test'],res['angust']['site_test'],res['myrt']['two_site_test'],res['angust']['management_adjusted_site']];order=sorted(range(4),key=lambda i:t[i]['P']);running=0
+for j,i in enumerate(order):running=max(running,min(1,(4-j)*t[i]['P']));t[i]['P_Holm_primary']=running
 (O/'analysis_results.json').write_text(json.dumps(res,indent=2,default=lambda x:x.item()));print(json.dumps(res,indent=2,default=lambda x:x.item()))

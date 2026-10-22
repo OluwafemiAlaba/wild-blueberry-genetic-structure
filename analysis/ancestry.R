@@ -1,6 +1,6 @@
-.libPaths(c('analysis_v2/Rlib',.libPaths()))
+.libPaths(c('analysis/Rlib',.libPaths()))
 library(LEA)
-root=normalizePath('analysis_v2');setwd(file.path(root,'data'))
+root=normalizePath('analysis');setwd(file.path(root,'data'))
 for (name in c('all','angust')) {
  input=paste0(name,'.lfmm');maxK=ifelse(name=='all',6,5)
  p=snmf(input,K=1:maxK,repetitions=5,entropy=TRUE,percentage=.05,CPU=2,alpha=10,iterations=1000,tolerance=1e-5,seed=20261009,project='new')

@@ -3,9 +3,9 @@ __pycache__/
 *.pyc
 .venv/
 inputs/
-analysis_v2/data/
-analysis_v2/results/
-analysis_v2/Rlib/
+analysis/data/
+analysis/results/
+analysis/Rlib/
 outputs/
 metadata/
 *.png

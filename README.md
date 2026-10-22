@@ -33,8 +33,8 @@ Construct the sample cohort, filter biallelic SNPs and prune linkage disequilibr
 
 ```sh
 python3 scripts/check_inputs.py
-mkdir -p analysis_v2/data analysis_v2/results analysis_v2/Rlib outputs metadata
-python3 analysis_v2/prepare.py
+mkdir -p analysis/data analysis/results analysis/Rlib outputs metadata
+python3 analysis/prepare.py
 ```
 
 ## 2. Ancestry estimation and imputation
@@ -42,18 +42,16 @@ python3 analysis_v2/prepare.py
 Fit LEA sNMF models with five runs per K: K = 1–6 for all retained samples and K = 1–5 for V. angustifolium. Evaluate cross-entropy, assess imputation using held-out calls and impute missing genotypes while retaining observed calls.
 
 ```sh
-Rscript analysis_v2/ancestry.R
+Rscript analysis/ancestry.R
 ```
 
 ## 3. Ordination and clustering
 
-Calculate standardized PCA and Ward.D2 hierarchical clustering. Additional checks examine missingness, technical replicates, observed-call sensitivity and within-species structure.
+Calculate standardized PCA and Ward.D2 hierarchical clustering. The analysis also reports technical-replicate concordance, observed-call sensitivity and within-species structure. Holm corrections are applied within each family of tests.
 
 ```sh
-python3 analysis_v2/analyze.py
-python3 analysis_v2/diagnostics.py
-Rscript analysis_v2/clustering.R
-python3 analysis_v2/extra_checks.py
+python3 analysis/analyze.py
+Rscript analysis/clustering.R
 ```
 
 ## 4. Management-associated differentiation
@@ -78,7 +76,7 @@ sh run_figures.sh
 
 ## Using other datasets
 
-Update input paths, workbook layouts and sample identifiers to match your data. In `analysis_v2/prepare.py`, review cohort assignments, missingness and allele-frequency thresholds, and LD settings. In `analysis_v2/ancestry.R`, review K ranges and fitting settings. Update study-specific sample counts in validation scripts and group labels in figure scripts. Keep sample and marker order consistent throughout. Random seeds are specified in the analysis scripts.
+Update input paths, workbook layouts and sample identifiers to match your data. In `analysis/prepare.py`, review cohort assignments, missingness and allele-frequency thresholds, and LD settings. In `analysis/ancestry.R`, review K ranges and fitting settings. Update study-specific sample counts in validation scripts and group labels in figure scripts. Keep sample and marker order consistent throughout. Random seeds are specified in the analysis scripts.
 
 The study uses diploid-style 0/1/2 coding; these values are not measured tetraploid allele dosages. Input conventions and historical processing limits are described in [docs/INPUTS.md](docs/INPUTS.md).
 

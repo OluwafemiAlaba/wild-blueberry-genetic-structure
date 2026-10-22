@@ -4,7 +4,7 @@ import numpy as np,pandas as pd,matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
-R=Path(__file__).resolve().parents[2];O=R/'analysis_v2/results';F=Path(__file__).resolve().parent
+R=Path(__file__).resolve().parents[2];O=R/'analysis/results';F=Path(__file__).resolve().parent
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'pdf.fonttype':42,'svg.fonttype':'none','axes.spines.top':False,'axes.spines.right':False})
 spc={'angustifolium':'#0072B2','myrtilloides':'#D55E00','highbush reference':'#009E73'}
 spl={'angustifolium':'V. angustifolium','myrtilloides':'V. myrtilloides','highbush reference':'V. corymbosum'}

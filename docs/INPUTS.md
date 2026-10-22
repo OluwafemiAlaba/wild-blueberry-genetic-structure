@@ -17,11 +17,11 @@ The supplied genotypes use diploid-style 0/1/2 coding. The scripts do not recons
 
 ## Outputs and data ordering
 
-`prepare.py` writes cohort/sample manifests, a variant manifest, `genotypes.npz` and LFMM inputs in `analysis_v2/data/`. LFMM rows follow the analysis sample manifest; columns follow LD-retained variants. LFMM missing calls are encoded as 9. The complete filtered matrix uses NaN for missing calls.
+`prepare.py` writes cohort/sample manifests, a variant manifest, `genotypes.npz` and LFMM inputs in `analysis/data/`. LFMM rows follow the analysis sample manifest; columns follow LD-retained variants. LFMM missing calls are encoded as 9. The complete filtered matrix uses NaN for missing calls.
 
-`ancestry.R` writes ancestry proportions, cross-entropy and validation summaries in `analysis_v2/results/`, with fitted/imputed matrices in `analysis_v2/data/`. Ancestry columns have arbitrary component labels, not species probabilities.
+`ancestry.R` writes ancestry proportions, cross-entropy and validation summaries in `analysis/results/`, with fitted/imputed matrices in `analysis/data/`. Ancestry columns have arbitrary component labels, not species probabilities.
 
-`analyze.py` and `clustering.R` write PCA scores, explained-variance values, clustering merges and sample order. Hierarchical-clustering indices follow R's one-based hclust convention. `diagnostics.py` also reads Q matrices saved for individual sNMF runs.
+`analyze.py` and `clustering.R` write PCA scores, explained-variance values, clustering merges and sample order. Hierarchical-clustering indices follow R's one-based hclust convention.
 
 The corrected management matrix, PCoA and AMOVA are written under `outputs/management_Hope34_excluded/`. The pairwise calculation writes `deliverables/Management_differentiation_preview/pairwise_PhiPT_corrected.csv`. Table summaries are exported to `outputs/tables/`.
 

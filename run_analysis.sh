@@ -2,7 +2,7 @@
 set -eu
 cd "$(dirname "$0")"
 python3 scripts/check_inputs.py
-mkdir -p analysis/data analysis/results analysis/Rlib outputs metadata deliverables/Management_differentiation_preview
+mkdir -p analysis/data analysis/results analysis/Rlib outputs metadata outputs/Management_differentiation_preview
 python3 analysis/prepare.py
 Rscript analysis/ancestry.R
 python3 analysis/analyze.py

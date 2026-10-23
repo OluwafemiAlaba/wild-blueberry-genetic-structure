@@ -16,7 +16,7 @@ python3 -m pip install -r requirements.txt
 
 ## Data and execution
 
-This repository contains code only. Study data are distributed separately; a public archive accession has not yet been assigned. Required files, formats and output paths are described in [docs/INPUTS.md](docs/INPUTS.md).
+This repository contains code only. Study data are distributed separately; a public archive accession has not yet been assigned. Contact the author for study inputs and format details.
 
 Run commands from the repository root. To run the complete workflow and check its outputs:
 
@@ -78,7 +78,7 @@ sh run_figures.sh
 
 Update input paths, workbook layouts and sample identifiers to match your data. In `analysis/prepare.py`, review cohort assignments, missingness and allele-frequency thresholds, and LD settings. In `analysis/ancestry.R`, review K ranges and fitting settings. Update study-specific sample counts in validation scripts and group labels in figure scripts. Keep sample and marker order consistent throughout. Random seeds are specified in the analysis scripts.
 
-The study uses diploid-style 0/1/2 coding; these values are not measured tetraploid allele dosages. Input conventions and historical processing limits are described in [docs/INPUTS.md](docs/INPUTS.md).
+The study uses diploid-style 0/1/2 coding; these values are not measured tetraploid allele dosages.
 
 ## Software
 

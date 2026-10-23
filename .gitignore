@@ -6,7 +6,9 @@ inputs/
 analysis/data/
 analysis/results/
 analysis/Rlib/
-outputs/
+outputs/**
+!outputs/**/
+!outputs/**/*.py
 metadata/
 *.png
 *.pdf

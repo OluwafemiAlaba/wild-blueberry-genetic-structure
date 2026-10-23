@@ -4,7 +4,7 @@ import numpy as np,pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-R=Path(__file__).resolve().parents[1];O=R/'deliverables/Management_differentiation_preview';O.mkdir(exist_ok=True)
+R=Path(__file__).resolve().parents[1];O=R/'outputs/Management_differentiation_preview';O.mkdir(exist_ok=True)
 f=R/'outputs/management_Hope34_excluded/corrected_management_input.csv';t=pd.read_csv(f);X=t.iloc[:,2:].to_numpy();g=t.group.to_numpy();ch=np.array(['_'.join(c.split('_')[:-2]) for c in t.columns[2:]])
 assert len(t)==136 and 'Hope34' not in t['sample'].tolist() and len(np.unique(ch))==12
 D=np.array([(X!=r).sum(axis=1) for r in X],float)

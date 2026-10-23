@@ -10,6 +10,6 @@ if missing:
     print("Required study inputs are not included in this code-only repository:", file=sys.stderr)
     for path in missing:
         print("  " + path, file=sys.stderr)
-    print("See docs/INPUTS.md for file formats and directory placement.", file=sys.stderr)
+    print("Contact the author for input formats and directory placement.", file=sys.stderr)
     sys.exit(1)
 print("All required source files are present.")

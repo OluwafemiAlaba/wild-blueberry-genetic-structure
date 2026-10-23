@@ -28,7 +28,7 @@ for group,n in s['groups'].items():counts.append(dict(analysis='management_Hope3
 pd.DataFrame(main).to_csv(O/'Table1_AMOVA.csv',index=False)
 pd.DataFrame(full).to_csv(O/'Table_S4_full_AMOVA.csv',index=False)
 pd.DataFrame(counts).to_csv(O/'Table_S3_analysis_sample_counts.csv',index=False)
-m=pd.read_csv(R/'deliverables/Management_differentiation_preview/pairwise_PhiPT_corrected.csv',index_col=0)
+m=pd.read_csv(R/'outputs/Management_differentiation_preview/pairwise_PhiPT_corrected.csv',index_col=0)
 m.to_csv(O/'Table2_pairwise_PhiPT.csv')
 (O/'README.txt').write_text('These exports support manuscript tables; they are not formatted manuscript replacements. Table S3 export contains verified analysis-specific counts, not unverified reported collection totals or GPS. PhiPTP exports preserve GenAlEx cell layout and labels; do not treat all numeric cells as PhiPT or as P values. Main Table 1 panels A-B and S1-S2 use saved geographic results; C uses recalculated management results.\n')
 print('Exported six table-support files.')
